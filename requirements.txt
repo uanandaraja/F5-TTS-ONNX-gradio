@@ -1,0 +1,11 @@
+torch>=2.0.0
+torchaudio>=2.0.0
+safetensors
+onnxruntime-directml
+numpy<=1.26.4
+jieba
+customtkinter
+pypinyin
+soundfile
+vocos
+librosa
