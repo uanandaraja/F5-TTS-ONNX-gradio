@@ -14,7 +14,7 @@ class GetEntry():
         self.oma= "./models/onnx/F5_Preprocess.onnx"
         self.omb= "./models/onnx/F5_Transformer.onnx"
         self.omc= "./models/onnx/F5_Decode.onnx"
-        self.refa= "./audio/source.wav"
+        self.refa= "./audio/sample.wav"
         self.gena= "./audio/generated/generated_audio.wav"
         self.reftxt= "And now, coming to you from the classiest station on the air, this is  "
 
@@ -107,6 +107,7 @@ HOP_LENGTH = 256                        # Number of samples between successive f
 SAMPLE_RATE = 24000                     # The generated audio sample rate
 RANDOM_SEED = 9527                      # Set seed to reproduce the generated audio
 NFE_STEP = 32                           # F5-TTS model setting
+dynamic_axes=False                      # Set True to be able to change speed
 SPEED = 1.0                             # Set for talking speed. Only works with dynamic_axes=True
 
 
