@@ -19,6 +19,6 @@ Running the F5-TTS  by ONNX Runtime
 - change generated audio files name if you don't want it overwritten 
 - this fork is using onnxruntime to use your GPU. AMD (from 6000 onwards better) and Nvidia GPU's should work at an acceptable speed. 
 
-- Here is an alternative ONNX model which accepts audios twice length than the default.
+- Here is an alternative ONNX model which accepts audio files twice longer than default.
 - https://www.mediafire.com/file/dkwdbfswqks414u/f5-tts-onnx-4096.zip/file
   
