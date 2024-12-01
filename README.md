@@ -13,7 +13,12 @@ Running the F5-TTS  by ONNX Runtime
 - clone this repo with "git clone https://github.com/patientx/F5-TTS-ONNX-gui"
 - run install.bat
 - download ONNX models for default english version of F5-TTS model from this link and put them into /models/onnx/ folder. (three files , F5_Decode.onnx , F5_Preprocess.onnx , F5_Transformer.onnx)
+- https://drive.google.com/file/d/1_QNdX-6l8iwDF9c6HxOxW5bpCB6HJGnR/view
 - after you put those models , you can run the app by simply running "inference.bat" , there would be a simple GUI with default values.
 - put your sample audio inside audio folder , change the first box to whatever you want the audio to say , and the last box to write what your reference audio is saying.
 - change generated audio files name if you don't want it overwritten 
 - this fork is using onnxruntime to use your GPU. AMD (from 6000 onwards better) and Nvidia GPU's should work at an acceptable speed. 
+
+- Here is an alternative ONNX model which accepts audios twice length than the default.
+- https://www.mediafire.com/file/dkwdbfswqks414u/f5-tts-onnx-4096.zip/file
+  
