@@ -18,12 +18,12 @@ class GetEntry():
         self.gena= "./audio/generated/generated_audio.wav"
         self.reftxt= "And now, coming to you from the classiest station on the air, this is  "
 
-        label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX", font=("Roboto", 24))
+        label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX GUI", font=("Roboto", 24))
         label.grid(row=0, column=0, padx=20, pady=10)    
         
         self.igentxt = cstk.CTkEntry(root,width=400,height=24)
         self.igentxt.grid(row=1, column=0, padx=20, pady=10)
-        self.igentxt.insert(0, "deneme")
+        self.igentxt.insert(0, "Let's go")
         
         self.ivocpath = cstk.CTkEntry(root,width=400,height=24)
         self.ivocpath.grid(row=2, column=0, padx=20, pady=5)
@@ -56,7 +56,7 @@ class GetEntry():
         root.update()
         self.igentxt.focus_set()
         
-        cstk.CTkButton(root, text="get", width=100, command=self.callback).grid(row=10, column=0)
+        cstk.CTkButton(root, text="Submit", width=100, command=self.callback).grid(row=10, column=0)
         
     def callback(self):
         self.gentxt=self.igentxt.get()
