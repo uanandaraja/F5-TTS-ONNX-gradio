@@ -6,3 +6,12 @@ Running the F5-TTS  by ONNX Runtime
 - We have optimized the code as much as possible, but ONNXRuntime-CPU's performance is still not as good as PyTorch-CPU. Quantizing to 8-bit makes it even slower. However, it is still worth trying other backend providers.
 - We have updated the code to adapt to SWivid/F5-TTS as of 2024/11/28, successfully exporting to the ONNX format. If you encountered an error before, you can download the latest code and try again.
 - See more -> https://dakeqq.github.io/overview/
+
+- have python & git installed.
+- clone this repo with "git clone https://github.com/patientx/F5-TTS-ONNX-gui"
+- run install.bat
+- download ONNX models for default english version of F5-TTS model from this link and put them into /models/onnx/ folder. (three files , F5_Decode.onnx , F5_Preprocess.onnx , F5_Transformer.onnx)
+- after you put those models , you can run the app by simply running "inference.bat" , there would be a simple GUI with default values.
+- put your sample audio inside audio folder , change the first box to whatever you want the audio to say , and the last box to write what your reference audio is saying.
+- change generated audio files name if you don't want it overwritten 
+- this fork is using onnxruntime to use your GPU.
