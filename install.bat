@@ -6,7 +6,7 @@ set "startTime=%time: =0%"
 
 cls
 echo -------------------------------------------------------------
-Echo ************ F5-TTS-ONNX with GUI INSTALL ************
+Echo *************** F5-TTS-ONNX with GUI INSTALL ****************
 echo -------------------------------------------------------------
 echo.
 echo  ::  %time:~0,8%  ::  - Setting up the virtual enviroment
