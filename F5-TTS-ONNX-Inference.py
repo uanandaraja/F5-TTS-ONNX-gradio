@@ -1,3 +1,86 @@
+# data entry start
+import customtkinter as cstk
+
+cstk.set_appearance_mode("dark")
+cstk.set_default_color_theme("dark-blue")
+
+class GetEntry():
+    
+    def __init__(self, root):
+        self.master=root
+        
+        self.gentxt= None
+        self.vocpath= "./models"
+        self.oma= "./models/onnx/F5_Preprocess.onnx"
+        self.omb= "./models/onnx/F5_Transformer.onnx"
+        self.omc= "./models/onnx/F5_Decode.onnx"
+        self.refa= "./audio/source.wav"
+        self.gena= "./audio/generated/generated_audio.wav"
+        self.reftxt= "And now, coming to you from the classiest station on the air, this is  "
+
+        label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX", font=("Roboto", 24))
+        label.grid(row=0, column=0, padx=20, pady=10)    
+        
+        self.igentxt = cstk.CTkEntry(root,width=400,height=24)
+        self.igentxt.grid(row=1, column=0, padx=20, pady=10)
+        self.igentxt.insert(0, "deneme")
+        
+        self.ivocpath = cstk.CTkEntry(root,width=400,height=24)
+        self.ivocpath.grid(row=2, column=0, padx=20, pady=5)
+        self.ivocpath.insert(0, "./models")
+        
+        self.ioma = cstk.CTkEntry(root,width=400,height=24)
+        self.ioma.grid(row=3, column=0, padx=20, pady=5)
+        self.ioma.insert(0, "./models/onnx/F5_Preprocess.onnx")
+        
+        self.iomb = cstk.CTkEntry(root,width=400,height=24)
+        self.iomb.grid(row=4, column=0, padx=20, pady=5)
+        self.iomb.insert(0, "./models/onnx/F5_Transformer.onnx")
+        
+        self.iomc = cstk.CTkEntry(root,width=400,height=24)
+        self.iomc.grid(row=5, column=0, padx=20, pady=5)
+        self.iomc.insert(0, "./models/onnx/F5_Decode.onnx")
+        
+        self.irefa = cstk.CTkEntry(root,width=400,height=24)
+        self.irefa.grid(row=6, column=0, padx=20, pady=5)
+        self.irefa.insert(0, "./audio/sample.wav")
+               
+        self.igena = cstk.CTkEntry(root,width=400,height=24)
+        self.igena.grid(row=7, column=0, padx=20, pady=5)
+        self.igena.insert(0, "./audio/generated/generated_audio.wav")
+        
+        self.ireftxt = cstk.CTkTextbox(root,width=400,height=96)
+        self.ireftxt.grid(row=8, column=0, padx=20, pady=10)
+        self.ireftxt.insert("0.0", "And now, coming to you from the classiest station on the air, this is  ")
+                       
+        root.update()
+        self.igentxt.focus_set()
+        
+        cstk.CTkButton(root, text="get", width=100, command=self.callback).grid(row=10, column=0)
+        
+    def callback(self):
+        self.gentxt=self.igentxt.get()
+        self.vocpath=self.ivocpath.get()
+        self.oma=self.ioma.get()
+        self.omb=self.iomb.get()
+        self.omc=self.iomc.get()
+        self.refa=self.irefa.get()
+        self.reftxt=self.ireftxt.get("1.0",'end-1c')
+        self.gena=self.igena.get()
+        root.destroy()
+        
+root = cstk.CTk()
+root.title('F5-TTS ONNX GUI')
+root.geometry("440x540")
+root.configure(bg = "#664848")
+root.resizable(width=False, height=False)
+
+GE=GetEntry(root)
+
+root.mainloop()
+
+# data entry end
+
 import re
 import sys
 import time
@@ -8,15 +91,14 @@ import torch
 import torchaudio
 from pypinyin import lazy_pinyin, Style
 
-F5_project_path      = "/home/dake/Downloads/F5-TTS-main"                               # The F5-TTS Github project download path.  URL: https://github.com/SWivid/F5-TTS
-onnx_model_A         = "/home/dake/Downloads/F5_Preprocess.onnx"                        # The exported onnx model path.
-onnx_model_B         = "/home/dake/Downloads/F5_Transformer.onnx"                       # The exported onnx model path.
-onnx_model_C         = "/home/dake/Downloads/F5_Decode.onnx"                            # The exported onnx model path.
-
-reference_audio      = "/home/dake/Downloads/F5-TTS-main/src/f5_tts/infer/examples/basic/basic_ref_zh.wav"     # The reference audio path.
-generated_audio      = "/home/dake/Downloads/F5-TTS-main/src/f5_tts/infer/examples/basic/generated.wav"        # The generated audio path.
-ref_text             = "对，这就是我，万人敬仰的太乙真人。"                                                          # The ASR result of reference audio.
-gen_text             = "对，这就是我，万人敬仰的大可奇奇。"                                                          # The target TTS.
+gen_text             = GE.gentxt
+vocab_path           = GE.vocpath
+onnx_model_A         = GE.oma
+onnx_model_B         = GE.omb
+onnx_model_C         = GE.omc
+reference_audio      = GE.refa
+generated_audio      = GE.gena
+ref_text             = GE.reftxt
 
 
 ORT_Accelerate_Providers = []           # If you have accelerate devices for : ['CUDAExecutionProvider', 'TensorrtExecutionProvider', 'CoreMLExecutionProvider', 'DmlExecutionProvider', 'OpenVINOExecutionProvider', 'ROCMExecutionProvider', 'MIGraphXExecutionProvider', 'AzureExecutionProvider']
@@ -28,7 +110,7 @@ NFE_STEP = 32                           # F5-TTS model setting
 SPEED = 1.0                             # Set for talking speed. Only works with dynamic_axes=True
 
 
-with open(f"{F5_project_path}/data/Emilia_ZH_EN_pinyin/vocab.txt", "r", encoding="utf-8") as f:
+with open(f"{vocab_path}/vocab.txt", "r", encoding="utf-8") as f:
     vocab_char_map = {}
     for i, char in enumerate(f):
         vocab_char_map[char[:-1]] = i
@@ -124,10 +206,7 @@ out_name_A5 = out_name_A[5].name
 out_name_A6 = out_name_A[6].name
 
 
-ort_session_B = onnxruntime.InferenceSession(onnx_model_B, sess_options=session_opts, providers=ORT_Accelerate_Providers.append('CPUExecutionProvider'))
-# For DirectML + AMD GPU, 
-# pip install onnxruntime-directml --upgrade
-# ort_session_B = onnxruntime.InferenceSession(onnx_model_B, sess_options=session_opts, providers=['DmlExecutionProvider'])
+ort_session_B = onnxruntime.InferenceSession(onnx_model_B, sess_options=session_opts, providers=ORT_Accelerate_Providers.append('DmlExecutionProvider'))
 
 in_name_B = ort_session_B.get_inputs()
 out_name_B = ort_session_B.get_outputs()
