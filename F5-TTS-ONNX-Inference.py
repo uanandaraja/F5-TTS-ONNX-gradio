@@ -207,7 +207,7 @@ out_name_A5 = out_name_A[5].name
 out_name_A6 = out_name_A[6].name
 
 
-ort_session_B = onnxruntime.InferenceSession(onnx_model_B, sess_options=session_opts, providers=ORT_Accelerate_Providers.append('DmlExecutionProvider'))
+ort_session_B = onnxruntime.InferenceSession(onnx_model_B, sess_options=session_opts, providers=['DmlExecutionProvider'])
 
 in_name_B = ort_session_B.get_inputs()
 out_name_B = ort_session_B.get_outputs()
