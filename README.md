@@ -7,7 +7,7 @@
 *** Automatic Installation ***
 - Run `install.bat`
 - Default english version of F5-TTS models are automatically downloaded from huggingface into `/models/onnx/` folder.
-- (If you can't reach huggingface you can use this link as a backup : `https://drive.google.com/file/d/1_QNdX-6l8iwDF9c6HxOxW5bpCB6HJGnR/view`
+- If you can't reach huggingface you can use this link as a backup : `https://drive.google.com/file/d/1_QNdX-6l8iwDF9c6HxOxW5bpCB6HJGnR/view`
 
 *** Manual installation ***
 - Create a virtual enviroment for the app. `python -m venv venv`
