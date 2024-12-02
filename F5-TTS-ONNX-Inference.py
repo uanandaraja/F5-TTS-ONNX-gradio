@@ -1,85 +1,59 @@
 # data entry start
+
 import customtkinter as cstk
+from customtkinter import StringVar
 
 cstk.set_appearance_mode("dark")
 cstk.set_default_color_theme("dark-blue")
 
-class GetEntry():
-    
-    def __init__(self, root):
-        self.master=root
-        
-        self.gentxt= None
-        self.vocpath= "./models"
-        self.oma= "./models/onnx/F5_Preprocess.onnx"
-        self.omb= "./models/onnx/F5_Transformer.onnx"
-        self.omc= "./models/onnx/F5_Decode.onnx"
-        self.refa= "./audio/sample.wav"
-        self.gena= "./audio/generated/generated_audio.wav"
-        self.reftxt= "And now, coming to you from the classiest station on the air, this is  "
-
-        label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX GUI", font=("Roboto", 24))
-        label.grid(row=0, column=0, padx=20, pady=10)    
-        
-        self.igentxt = cstk.CTkEntry(root,width=400,height=24)
-        self.igentxt.grid(row=1, column=0, padx=20, pady=10)
-        self.igentxt.insert(0, "Let's go")
-        
-        self.ivocpath = cstk.CTkEntry(root,width=400,height=24)
-        self.ivocpath.grid(row=2, column=0, padx=20, pady=5)
-        self.ivocpath.insert(0, "./models")
-        
-        self.ioma = cstk.CTkEntry(root,width=400,height=24)
-        self.ioma.grid(row=3, column=0, padx=20, pady=5)
-        self.ioma.insert(0, "./models/onnx/F5_Preprocess.onnx")
-        
-        self.iomb = cstk.CTkEntry(root,width=400,height=24)
-        self.iomb.grid(row=4, column=0, padx=20, pady=5)
-        self.iomb.insert(0, "./models/onnx/F5_Transformer.onnx")
-        
-        self.iomc = cstk.CTkEntry(root,width=400,height=24)
-        self.iomc.grid(row=5, column=0, padx=20, pady=5)
-        self.iomc.insert(0, "./models/onnx/F5_Decode.onnx")
-        
-        self.irefa = cstk.CTkEntry(root,width=400,height=24)
-        self.irefa.grid(row=6, column=0, padx=20, pady=5)
-        self.irefa.insert(0, "./audio/sample.wav")
-               
-        self.igena = cstk.CTkEntry(root,width=400,height=24)
-        self.igena.grid(row=7, column=0, padx=20, pady=5)
-        self.igena.insert(0, "./audio/generated/generated_audio.wav")
-        
-        self.ireftxt = cstk.CTkTextbox(root,width=400,height=96)
-        self.ireftxt.grid(row=8, column=0, padx=20, pady=10)
-        self.ireftxt.insert("0.0", "And now, coming to you from the classiest station on the air, this is  ")
-                       
-        root.update()
-        self.igentxt.focus_set()
-        
-        cstk.CTkButton(root, text="Submit", width=100, command=self.callback).grid(row=10, column=0)
-        
-    def callback(self):
-        self.gentxt=self.igentxt.get()
-        self.vocpath=self.ivocpath.get()
-        self.oma=self.ioma.get()
-        self.omb=self.iomb.get()
-        self.omc=self.iomc.get()
-        self.refa=self.irefa.get()
-        self.reftxt=self.ireftxt.get("1.0",'end-1c')
-        self.gena=self.igena.get()
-        root.destroy()
-        
 root = cstk.CTk()
-root.title('F5-TTS ONNX GUI')
+root.title('F5-TTS ONNX')
 root.geometry("440x540")
 root.configure(bg = "#664848")
 root.resizable(width=False, height=False)
 
-GE=GetEntry(root)
+gentxt= StringVar(root, "write what you want generated")
+vocpath= StringVar(root, "./models")
+oma= StringVar(root, "./models/onnx/F5_Preprocess.onnx")
+omb= StringVar(root, "./models/onnx/F5_Transformer.onnx")
+omc= StringVar(root, "./models/onnx/F5_Decode.onnx")
+refa= StringVar(root, "./audio/sample.wav")
+gena= StringVar(root, "./audio/generated/generated_audio.wav")
+reftxt= StringVar(root, "And now, coming to you from the classiest station on the air, this is ")
+renderer= StringVar(root, "DmlExecutionProvider")
 
+label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX", font=("Roboto", 24))
+label.grid(row=0, column=0, padx=20, pady=10)    
+        
+igentxt = cstk.CTkEntry(root,width=400,height=24, textvariable = gentxt)
+igentxt.grid(row=1, column=0, padx=20, pady=10)
+        
+ivocpath = cstk.CTkEntry(root,width=400,height=24, textvariable = vocpath)
+ivocpath.grid(row=2, column=0, padx=20, pady=5)
+       
+ioma = cstk.CTkEntry(root,width=400,height=24, textvariable = oma)
+ioma.grid(row=3, column=0, padx=20, pady=5)
+        
+iomb = cstk.CTkEntry(root,width=400,height=24, textvariable = omb)
+iomb.grid(row=4, column=0, padx=20, pady=5)
+       
+iomc = cstk.CTkEntry(root,width=400,height=24, textvariable = omc)
+iomc.grid(row=5, column=0, padx=20, pady=5)
+        
+irefa = cstk.CTkEntry(root,width=400,height=24, textvariable = refa)
+irefa.grid(row=6, column=0, padx=20, pady=5)
+               
+igena = cstk.CTkEntry(root,width=400,height=24, textvariable = gena)
+igena.grid(row=7, column=0, padx=20, pady=5)
+        
+ireftxt = cstk.CTkTextbox(root,width=400,height=96)
+ireftxt.insert("0.0", reftxt.get())
+ireftxt.grid(row=8, column=0, padx=20, pady=10)
+    
+cstk.CTkButton(root, text="SUBMIT", width=120, command=root.destroy).grid(row=10, column=0)
+   
 root.mainloop()
-
-# data entry end
+#data entry end
 
 import re
 import sys
@@ -91,15 +65,15 @@ import torch
 import torchaudio
 from pypinyin import lazy_pinyin, Style
 
-gen_text             = GE.gentxt
-vocab_path           = GE.vocpath
-onnx_model_A         = GE.oma
-onnx_model_B         = GE.omb
-onnx_model_C         = GE.omc
-reference_audio      = GE.refa
-generated_audio      = GE.gena
-ref_text             = GE.reftxt
-
+gen_text             = gentxt.get()
+F5_project_path      = vocpath.get()
+onnx_model_A         = oma.get()
+onnx_model_B         = omb.get()
+onnx_model_C         = omc.get()
+reference_audio      = refa.get()
+generated_audio      = gena.get()
+ref_text             = reftxt.get()
+voc_path             = vocpath.get()
 
 ORT_Accelerate_Providers = []           # If you have accelerate devices for : ['CUDAExecutionProvider', 'TensorrtExecutionProvider', 'CoreMLExecutionProvider', 'DmlExecutionProvider', 'OpenVINOExecutionProvider', 'ROCMExecutionProvider', 'MIGraphXExecutionProvider', 'AzureExecutionProvider']
                                         # else keep empty.
@@ -111,7 +85,7 @@ dynamic_axes=False                      # Set True to be able to change speed
 SPEED = 1.0                             # Set for talking speed. Only works with dynamic_axes=True
 
 
-with open(f"{vocab_path}/vocab.txt", "r", encoding="utf-8") as f:
+with open(f"{voc_path}/vocab.txt", "r", encoding="utf-8") as f:
     vocab_char_map = {}
     for i, char in enumerate(f):
         vocab_char_map[char[:-1]] = i
