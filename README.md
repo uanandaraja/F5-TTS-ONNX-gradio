@@ -29,7 +29,8 @@
 * This fork is using onnxruntime to use your GPU. AMD (from 6000 onwards better) and Nvidia GPU's should work at an acceptable speed. 
 
 *** Here is an alternative ONNX model which accepts audio files twice longer than default.
---- `https://www.mediafire.com/file/dkwdbfswqks414u/f5-tts-onnx-4096.zip/file` ---
+- `https://www.mediafire.com/file/dkwdbfswqks414u/f5-tts-onnx-4096.zip/file`
+- Download and extract them in the `models/onnx/` folder. Change the names in the GUI accordingly. This model uses more vram (not sure the exact amount) but can generate a bit longer sentences.
 
 
   
