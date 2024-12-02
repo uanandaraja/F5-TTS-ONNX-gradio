@@ -2,13 +2,41 @@
 
 import customtkinter as cstk
 from customtkinter import StringVar
+import json
+import os
+
+# save-load start
+config_file = "config.json"
+
+def load_config():
+    if os.path.exists(config_file):
+        with open(config_file, "r") as file:
+            return json.load(file)
+    return {}
+
+def save_config():
+    config = {
+        "gentxt": gentxt.get(),
+        "vocpath": vocpath.get(),
+        "oma": oma.get(),
+        "omb": omb.get(),
+        "omc": omc.get(),
+        "refa": refa.get(),
+        "gena": gena.get(),
+        "reftxt": reftxt.get(),
+    }
+    with open(config_file, "w") as file:
+        json.dump(config, file, indent=4)
+
+config = load_config()
+# save-load end
 
 cstk.set_appearance_mode("dark")
 cstk.set_default_color_theme("dark-blue")
 
 root = cstk.CTk()
-root.title('F5-TTS ONNX')
-root.geometry("440x540")
+root.title('F5-TTS-ONNX GUI')
+root.geometry("440x520")
 root.configure(bg = "#664848")
 root.resizable(width=False, height=False)
 
@@ -20,7 +48,6 @@ omc= StringVar(root, "./models/onnx/F5_Decode.onnx")
 refa= StringVar(root, "./audio/sample.wav")
 gena= StringVar(root, "./audio/generated/generated_audio.wav")
 reftxt= StringVar(root, "And now, coming to you from the classiest station on the air, this is ")
-renderer= StringVar(root, "DmlExecutionProvider")
 
 label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX", font=("Roboto", 24))
 label.grid(row=0, column=0, padx=20, pady=10)    
@@ -50,7 +77,7 @@ ireftxt = cstk.CTkTextbox(root,width=400,height=96)
 ireftxt.insert("0.0", reftxt.get())
 ireftxt.grid(row=8, column=0, padx=20, pady=10)
     
-cstk.CTkButton(root, text="SUBMIT", width=120, command=root.destroy).grid(row=10, column=0)
+cstk.CTkButton(root, text="SUBMIT", width=120, command=lambda: [save_config(), root.destroy()]).grid(row=10, column=0)
    
 root.mainloop()
 #data entry end
