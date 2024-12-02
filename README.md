@@ -18,7 +18,7 @@ Running the F5-TTS  by ONNX Runtime
 - https://drive.google.com/file/d/1_QNdX-6l8iwDF9c6HxOxW5bpCB6HJGnR/view
 - after you put those models , you can run the app by simply running "inference.bat" , there would be a simple GUI with default values.
 - put your sample audio inside audio folder , change the first box to whatever you want the audio to say , and the last box to write what your reference audio is saying.
-- change generated audio files name if you don't want it overwritten 
+- change "generated audio file" 's name if you don't want it overwritten 
 - this fork is using onnxruntime to use your GPU. AMD (from 6000 onwards better) and Nvidia GPU's should work at an acceptable speed. 
 
 - Here is an alternative ONNX model which accepts audio files twice longer than default.
