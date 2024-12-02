@@ -24,7 +24,11 @@
 * App now saves the values everytime you change them.
 - If you want to manually run it, get into the folder via commandline , `venv\scripts\activate` , `python F5-TTS-ONNX-Inference.py` .
 - Make sure your sample audio is inside audio folder , change the first box to whatever you want the model to say , and the last box to write what your reference audio is saying.
-* Change "generated audio file" 's name if you don't want it overwritten 
+* Change "generated audio file" 's name if you don't want it overwritten
+
+  > [!IMPORTANT]
+> 
+> 📢 ***Saving the reference text doesn't work from the GUI. Please change this inside config.json. It can be edited with any text editor. ***
 
 * This fork is using onnxruntime to use your GPU. AMD (from 6000 onwards better) and Nvidia GPU's should work at an acceptable speed. 
 
