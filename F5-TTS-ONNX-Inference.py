@@ -49,32 +49,50 @@ refa = StringVar(root, config.get("refa", "./audio/sample.wav"))
 gena = StringVar(root, config.get("gena", "./audio/generated/generated_audio.wav"))
 reftxt = StringVar(root, config.get("reftxt", "And now, coming to you from the classiest station on the air, this is "))
 
-label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX GUI", font=("Roboto", 24))
-label.grid(row=0, column=0, padx=20, pady=10)    
+label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX GUI", font=("Roboto", 16))
+label.grid(row=0, column=0, padx=10, pady=10)
+
+label2 = cstk.CTkLabel(master=root, text="Text you want to be generated with the sample's voice :", font=("Roboto", 12), compound="left", justify="left", anchor="w")
+label2.grid(row=1, column=0, padx=10, pady=1,sticky="w")     
         
-igentxt = cstk.CTkEntry(root,width=500,height=24, textvariable = gentxt)
-igentxt.grid(row=1, column=0, padx=20, pady=10)
+igentxt = cstk.CTkEntry(root,width=600,height=16, textvariable = gentxt)
+igentxt.grid(row=2, column=0, padx=10, pady=1)
+
+label2 = cstk.CTkLabel(master=root, text="Vocab file path and name (Only needed if you change the language) :", font=("Roboto", 12), compound="left", justify="left", anchor="w")
+label2.grid(row=3, column=0, padx=10, pady=1,sticky="w")     
         
-ivocpath = cstk.CTkEntry(root,width=500,height=24, textvariable = vocpath)
-ivocpath.grid(row=2, column=0, padx=20, pady=5)
+ivocpath = cstk.CTkEntry(root,width=600,height=16, textvariable = vocpath)
+ivocpath.grid(row=4, column=0, padx=10, pady=1)
+
+label2 = cstk.CTkLabel(master=root, text="Change these three if you use a different model :", font=("Roboto", 12), compound="left", justify="left", anchor="w")
+label2.grid(row=5, column=0, padx=10, pady=1,sticky="w") 
        
-ioma = cstk.CTkEntry(root,width=500,height=24, textvariable = oma)
-ioma.grid(row=3, column=0, padx=20, pady=5)
+ioma = cstk.CTkEntry(root,width=600,height=16, textvariable = oma)
+ioma.grid(row=6, column=0, padx=10, pady=1)
         
-iomb = cstk.CTkEntry(root,width=500,height=24, textvariable = omb)
-iomb.grid(row=4, column=0, padx=20, pady=5)
+iomb = cstk.CTkEntry(root,width=600,height=16, textvariable = omb)
+iomb.grid(row=7, column=0, padx=10, pady=1)
        
-iomc = cstk.CTkEntry(root,width=500,height=24, textvariable = omc)
-iomc.grid(row=5, column=0, padx=20, pady=5)
+iomc = cstk.CTkEntry(root,width=600,height=16, textvariable = omc)
+iomc.grid(row=8, column=0, padx=10, pady=1)
+
+label2 = cstk.CTkLabel(master=root, text="Reference Audio File Name (can be wav or mp3, MUST BE MONO) :", font=("Roboto", 12), compound="left", justify="left", anchor="w")
+label2.grid(row=9, column=0, padx=10, pady=1,sticky="w") 
         
-irefa = cstk.CTkEntry(root,width=500,height=24, textvariable = refa)
-irefa.grid(row=6, column=0, padx=20, pady=5)
+irefa = cstk.CTkEntry(root,width=600,height=16, textvariable = refa)
+irefa.grid(row=10, column=0, padx=10, pady=1)
+
+label2 = cstk.CTkLabel(master=root, text="Generated Audio File Name (extension can be wav or mp3) :", font=("Roboto", 12))
+label2.grid(row=11, column=0, padx=10, pady=1,sticky="w") 
                
-igena = cstk.CTkEntry(root,width=500,height=24, textvariable = gena)
-igena.grid(row=7, column=0, padx=20, pady=5)
+igena = cstk.CTkEntry(root,width=600,height=16, textvariable = gena)
+igena.grid(row=12, column=0, padx=10, pady=1)
+
+label = cstk.CTkLabel(master=root, text="Reference Text (change only if you use different reference audio) :", font=("Roboto", 12), compound="left", justify="left", anchor="w")
+label.grid(row=13, column=0, padx=10, pady=1,sticky="w")   
         
-ireftxt = cstk.CTkEntry(root,width=500,height=48, textvariable = reftxt)
-ireftxt.grid(row=8, column=0, padx=20, pady=20)
+ireftxt = cstk.CTkEntry(root,width=600,height=32, textvariable = reftxt)
+ireftxt.grid(row=14, column=0, padx=10, pady=5)
     
 cstk.CTkButton(root, text="SAVE & EXECUTE", width=160, command=lambda: [save_config(), root.destroy()]).grid(row=10, column=0)
    
