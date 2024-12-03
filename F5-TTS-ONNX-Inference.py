@@ -41,7 +41,7 @@ root.configure(bg = "#664848")
 root.resizable(width=False, height=False)
 
 gentxt = StringVar(root, config.get("gentxt", "write what you want generated"))
-vocpath = StringVar(root, config.get("vocpath", "./models"))
+vocpath = StringVar(root, config.get("vocpath", "./models/vocab.txt"))
 oma = StringVar(root, config.get("oma", "./models/onnx/F5_Preprocess.onnx"))
 omb = StringVar(root, config.get("omb", "./models/onnx/F5_Transformer.onnx"))
 omc = StringVar(root, config.get("omc", "./models/onnx/F5_Decode.onnx"))
@@ -129,7 +129,7 @@ dynamic_axes=False                      # Set True to be able to change speed
 SPEED = 1.0                             # Set for talking speed. Only works with dynamic_axes=True
 
 
-with open(f"{voc_path}/vocab.txt", "r", encoding="utf-8") as f:
+with open(voc_path, "r", encoding="utf-8") as f:
     vocab_char_map = {}
     for i, char in enumerate(f):
         vocab_char_map[char[:-1]] = i
