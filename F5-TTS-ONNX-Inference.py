@@ -36,7 +36,7 @@ cstk.set_default_color_theme("dark-blue")
 
 root = cstk.CTk()
 root.title('F5-TTS-ONNX GUI')
-root.geometry("440x520")
+root.geometry("540x440")
 root.configure(bg = "#664848")
 root.resizable(width=False, height=False)
 
@@ -49,35 +49,34 @@ refa = StringVar(root, config.get("refa", "./audio/sample.wav"))
 gena = StringVar(root, config.get("gena", "./audio/generated/generated_audio.wav"))
 reftxt = StringVar(root, config.get("reftxt", "And now, coming to you from the classiest station on the air, this is "))
 
-label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX", font=("Roboto", 24))
+label = cstk.CTkLabel(master=root, text="F5-TTS-ONNX GUI", font=("Roboto", 24))
 label.grid(row=0, column=0, padx=20, pady=10)    
         
-igentxt = cstk.CTkEntry(root,width=400,height=24, textvariable = gentxt)
+igentxt = cstk.CTkEntry(root,width=500,height=24, textvariable = gentxt)
 igentxt.grid(row=1, column=0, padx=20, pady=10)
         
-ivocpath = cstk.CTkEntry(root,width=400,height=24, textvariable = vocpath)
+ivocpath = cstk.CTkEntry(root,width=500,height=24, textvariable = vocpath)
 ivocpath.grid(row=2, column=0, padx=20, pady=5)
        
-ioma = cstk.CTkEntry(root,width=400,height=24, textvariable = oma)
+ioma = cstk.CTkEntry(root,width=500,height=24, textvariable = oma)
 ioma.grid(row=3, column=0, padx=20, pady=5)
         
-iomb = cstk.CTkEntry(root,width=400,height=24, textvariable = omb)
+iomb = cstk.CTkEntry(root,width=500,height=24, textvariable = omb)
 iomb.grid(row=4, column=0, padx=20, pady=5)
        
-iomc = cstk.CTkEntry(root,width=400,height=24, textvariable = omc)
+iomc = cstk.CTkEntry(root,width=500,height=24, textvariable = omc)
 iomc.grid(row=5, column=0, padx=20, pady=5)
         
-irefa = cstk.CTkEntry(root,width=400,height=24, textvariable = refa)
+irefa = cstk.CTkEntry(root,width=500,height=24, textvariable = refa)
 irefa.grid(row=6, column=0, padx=20, pady=5)
                
-igena = cstk.CTkEntry(root,width=400,height=24, textvariable = gena)
+igena = cstk.CTkEntry(root,width=500,height=24, textvariable = gena)
 igena.grid(row=7, column=0, padx=20, pady=5)
         
-ireftxt = cstk.CTkTextbox(root,width=400,height=96)
-ireftxt.insert("0.0", reftxt.get())
-ireftxt.grid(row=8, column=0, padx=20, pady=10)
+ireftxt = cstk.CTkEntry(root,width=500,height=48, textvariable = reftxt)
+ireftxt.grid(row=8, column=0, padx=20, pady=20)
     
-cstk.CTkButton(root, text="SUBMIT", width=120, command=lambda: [save_config(), root.destroy()]).grid(row=10, column=0)
+cstk.CTkButton(root, text="SAVE & EXECUTE", width=160, command=lambda: [save_config(), root.destroy()]).grid(row=10, column=0)
    
 root.mainloop()
 #data entry end
