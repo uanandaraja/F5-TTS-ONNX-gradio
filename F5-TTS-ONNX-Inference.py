@@ -36,7 +36,7 @@ cstk.set_default_color_theme("dark-blue")
 
 root = cstk.CTk()
 root.title('F5-TTS-ONNX GUI')
-root.geometry("540x440")
+root.geometry("620x480")
 root.configure(bg = "#664848")
 root.resizable(width=False, height=False)
 
