@@ -94,7 +94,7 @@ label.grid(row=13, column=0, padx=10, pady=1,sticky="w")
 ireftxt = cstk.CTkEntry(root,width=600,height=32, textvariable = reftxt)
 ireftxt.grid(row=14, column=0, padx=10, pady=5)
     
-cstk.CTkButton(root, text="SAVE & EXECUTE", width=160, command=lambda: [save_config(), root.destroy()]).grid(row=10, column=0)
+cstk.CTkButton(root, text="SAVE & EXECUTE", width=160, command=lambda: [save_config(), root.destroy()]).grid(row=15, column=0)
    
 root.mainloop()
 #data entry end
