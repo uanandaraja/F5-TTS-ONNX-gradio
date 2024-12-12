@@ -9,3 +9,5 @@ pypinyin
 soundfile
 vocos
 librosa
+gradio
+tqdm
