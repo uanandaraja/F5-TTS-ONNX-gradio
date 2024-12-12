@@ -65,6 +65,8 @@ def process_audio(gentxt, vocpath, oma, omb, omc, ref_audio, gena, reftxt, progr
         NFE_STEP = 32
         SPEED = 1.0
 
+        PROVIDER = ['CUDAExecutionProvider', 'CPUExecutionProvider']
+
         # Loading configuration and models with progress tracking
         progress(0, desc="Initialization")
         logger.info("Loading vocabulary")
@@ -89,9 +91,9 @@ def process_audio(gentxt, vocpath, oma, omb, omc, ref_audio, gena, reftxt, progr
 
         # Initialize sessions
         logger.info("Loading ONNX models")
-        ort_session_A = onnxruntime.InferenceSession(oma, sess_options=session_opts, providers=['CPUExecutionProvider'])
-        ort_session_B = onnxruntime.InferenceSession(omb, sess_options=session_opts, providers=['CPUExecutionProvider'])
-        ort_session_C = onnxruntime.InferenceSession(omc, sess_options=session_opts, providers=['CPUExecutionProvider'])
+        ort_session_A = onnxruntime.InferenceSession(oma, sess_options=session_opts, providers=PROVIDER)
+        ort_session_B = onnxruntime.InferenceSession(omb, sess_options=session_opts, providers=PROVIDER)
+        ort_session_C = onnxruntime.InferenceSession(omc, sess_options=session_opts, providers=PROVIDER)
         progress(0.75)
 
         # Get input/output names
