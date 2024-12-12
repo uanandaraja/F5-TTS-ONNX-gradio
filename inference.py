@@ -29,7 +29,7 @@ def load_config():
     logger.warning("No configuration file found, using defaults")
     return {}
 
-def save_config(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt):
+def save_config(gentxt, vocpath, oma, omb, omc, gena, reftxt):
     logger.info("Saving configuration to file")
     config = {
         "gentxt": gentxt,
@@ -37,7 +37,6 @@ def save_config(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt):
         "oma": oma,
         "omb": omb,
         "omc": omc,
-        "refa": refa,
         "gena": gena,
         "reftxt": reftxt,
     }
@@ -52,13 +51,13 @@ def list_str_to_idx(text, vocab_char_map, padding_value=-1):
     text = torch.nn.utils.rnn.pad_sequence(list_idx_tensors, padding_value=padding_value, batch_first=True)
     return text
 
-def process_audio(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt, progress=gr.Progress()):
+def process_audio(gentxt, vocpath, oma, omb, omc, ref_audio, gena, reftxt, progress=gr.Progress()):
     try:
         logger.info("Starting audio processing")
         logger.info(f"Generation text: {gentxt}")
         logger.info(f"Reference text: {reftxt}")
 
-        save_config(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt)
+        save_config(gentxt, vocpath, oma, omb, omc, gena, reftxt)
 
         HOP_LENGTH = 256
         SAMPLE_RATE = 24000
@@ -106,8 +105,8 @@ def process_audio(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt, progress=g
 
         # Audio processing
         progress(0, desc="Audio Processing")
-        logger.info(f"Loading reference audio from {refa}")
-        audio, sr = torchaudio.load(refa)
+        logger.info(f"Loading reference audio")
+        audio, sr = torchaudio.load(ref_audio)
         if sr != SAMPLE_RATE:
             logger.info(f"Resampling audio from {sr}Hz to {SAMPLE_RATE}Hz")
             resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=SAMPLE_RATE)
@@ -140,7 +139,6 @@ def process_audio(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt, progress=g
         start_count = time.time()
 
         progress(0, desc="Model A (Preprocessing)")
-        logger.info("Running Model A (Preprocessing)")
         noise, rope_cos, rope_sin, cat_mel_text, cat_mel_text_drop, qk_rotated_empty, ref_signal_len = ort_session_A.run(
             [out.name for out in out_name_A],
             {
@@ -176,31 +174,55 @@ def process_audio(gentxt, vocpath, oma, omb, omc, refa, gena, reftxt, progress=g
         progress(1.0)
 
         logger.info("Audio generation process completed successfully")
-        return f"Audio generation complete. Time taken: {inference_time:.3f} seconds"
+        return f"Audio generation complete. Time taken: {inference_time:.3f} seconds", gena
 
     except Exception as e:
         logger.error(f"Error during audio processing: {str(e)}", exc_info=True)
         raise
 
-config = load_config()
+def create_interface():
+    config = load_config()
 
-interface = gr.Interface(
-    fn=process_audio,
-    inputs=[
-        gr.Textbox(value=config.get("gentxt", "write what you want generated"), label="Generation Text"),
-        gr.Textbox(value=config.get("vocpath", "./models/vocab.txt"), label="Vocab Path"),
-        gr.Textbox(value=config.get("oma", "./models/onnx/F5_Preprocess.onnx"), label="Model A Path"),
-        gr.Textbox(value=config.get("omb", "./models/onnx/F5_Transformer.onnx"), label="Model B Path"),
-        gr.Textbox(value=config.get("omc", "./models/onnx/F5_Decode.onnx"), label="Model C Path"),
-        gr.Textbox(value=config.get("refa", "./audio/sample.wav"), label="Reference Audio Path"),
-        gr.Textbox(value=config.get("gena", "./audio/generated/generated_audio.wav"), label="Generated Audio Path"),
-        gr.Textbox(value=config.get("reftxt", "And now, coming to you from the classiest station on the air, this is "), label="Reference Text"),
-    ],
-    outputs="text",
-    title="F5-TTS-ONNX GUI",
-    description="Text-to-Speech Generation Interface"
-)
+    with gr.Blocks(title="F5-TTS-ONNX GUI") as interface:
+        gr.Markdown("# F5-TTS-ONNX Text-to-Speech Generation Interface")
+
+        with gr.Row():
+            with gr.Column():
+                gentxt = gr.Textbox(value=config.get("gentxt", "write what you want generated"),
+                                  label="Generation Text")
+                reftxt = gr.Textbox(value=config.get("reftxt", "And now, coming to you from the classiest station on the air, this is "),
+                                  label="Reference Text")
+
+        with gr.Row():
+            with gr.Column():
+                ref_audio = gr.Audio(label="Reference Audio", type="filepath")
+                generated_audio = gr.Audio(label="Generated Audio")
+
+        with gr.Row():
+            with gr.Column():
+                vocpath = gr.Textbox(value=config.get("vocpath", "./models/vocab.txt"),
+                                   label="Vocab Path")
+                oma = gr.Textbox(value=config.get("oma", "./models/onnx/F5_Preprocess.onnx"),
+                               label="Model A Path")
+                omb = gr.Textbox(value=config.get("omb", "./models/onnx/F5_Transformer.onnx"),
+                               label="Model B Path")
+                omc = gr.Textbox(value=config.get("omc", "./models/onnx/F5_Decode.onnx"),
+                               label="Model C Path")
+                gena = gr.Textbox(value=config.get("gena", "./audio/generated/generated_audio.wav"),
+                                label="Generated Audio Path")
+
+        generate_btn = gr.Button("Generate Audio")
+        output_text = gr.Textbox(label="Status")
+
+        generate_btn.click(
+            fn=process_audio,
+            inputs=[gentxt, vocpath, oma, omb, omc, ref_audio, gena, reftxt],
+            outputs=[output_text, generated_audio]
+        )
+
+    return interface
 
 if __name__ == "__main__":
     logger.info("Starting F5-TTS-ONNX GUI")
+    interface = create_interface()
     interface.launch()
